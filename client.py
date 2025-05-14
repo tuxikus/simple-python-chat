@@ -15,11 +15,14 @@ class Client:
     def handle_send_msg(self):
         while self.running:
             msg = input()
-            self.client_socket.send(msg.encode())
+            if msg == "EXIT":
+                self.client_socket.close()
+            else:
+                self.client_socket.send(msg.encode())
 
     def run(self):
         threading.Thread(target=self.handle_recieve_msg, daemon=True).start()
         self.handle_send_msg()
 
-client = Client("localhost", 9997)
+client = Client("localhost", 9991)
 client.run()
